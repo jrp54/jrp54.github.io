@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarrod Pica | R&D Engineer</title>
+    <!-- Google Fonts: Space Grotesk for that techy/refined look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons via CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --bg-deep: #0a0c12;
+            --bg-card: rgba(22, 27, 34, 0.7);
+            --accent: #00d4ff; /* Electric Cyan */
+            --accent-glow: rgba(0, 212, 255, 0.3);
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --border: rgba(255, 255, 255, 0.1);
+            --font-main: 'Space Grotesk', sans-serif;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Background Animation --- */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 80px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            letter-spacing: -2px;
+        }
+
+        .hero .title {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .bio {
+            max-width: 600px;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-primary);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* --- Projects Grid --- */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::after {
+            content: "";
+            height: 1px;
+            background: var(--border);
+            flex-grow: 1;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px var(--accent-glow);
+        }
+
+        .project-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--accent);
+            border: 1px solid var(--border);
+        }
+
+        .btn-github {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-github:hover {
+            color: var(--accent);
+        }
+
+        /* --- Skills Section --- */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .skill-group h4 {
+            color: var(--accent);
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .skill-item i {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3.5rem; }
+            section { padding: 50px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="container">
+        <!-- Hero -->
+        <section class="hero" id="home">
+            <h1>Jarrod Pica</h1>
+            <div class="title">R&D Engineer</div>
+            <p class="bio">
+                I build full-stack systems and AI-powered tools — from proof-of-concept through to production. Based in Adelaide, SA.
+            </p>
+            <div class="social-links">
+                <!-- Replace with your actual URLs -->
+                <a href="https://github.com/jrp54" target="_blank">
+                    <i data-lucide="github"></i> GitHub
+                </a>
+                <a href="https://linkedin.com/in/jarrod-pica/" target="_blank">
+                    <i data-lucide="linkedin"></i> LinkedIn
+                </a>
+                <a href="mailto:jarrod.pica@gmail.com">
+                    <i data-lucide="mail"></i> Email
+                </a>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects">
+            <h2 class="section-title">Featured Work</h2>
+            <div class="project-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <h3>AI Agent Orchestrator</h3>
+                    <p>Coming soon: A multi-agent system utilizing MCP and LLMs to automate complex R&D workflows.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">LLM/MCP</span>
+                    </div>
+                    <!-- Replace # with your repo URL -->
+                    <a href="#" class="btn-github"><i data-lucide="external-link"></i> View on GitHub</a>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <h3>GraphQL Federation Layer</h3>
+                    <p>Coming soon: A scalable gateway architecture for microservices using Apollo Federation and Node.js.</p>
+                    <div class="tech-tags">
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">GraphQL</span>
+                        <span class="tag">Node.js</span>
+                    </div>
+                    <a href="#" class="btn-github"><i data-lucide="external-link"></i> View on GitHub</a>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <h3>Full-Stack Dashboard</h3>
+                    <p>Coming soon: Real-time data visualization platform with high-concurrency PostgreSQL backend.</p>
+                    <div class="tech-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">Power BI</span>
+                    </div>
+                    <a href="#" class="btn-github"><i data-lucide="external-link"></i> View on GitHub</a>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <h3>Security Microservice</h3>
+                    <p>Coming soon: A lightweight authentication and authorization microservice using FastAPI.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">REST</span>
+                    </div>
+                    <a href="#" class="btn-github"><i data-lucide="external-link"></i> View on GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills -->
+        <section id="skills">
+            <h2 class="section-title">Technical Expertise</h2>
+            <div class="skills-container">
+                <div class="skill-group">
+                    <h4>Languages</h4>
+                    <div class="skill-list">
+                        <div class="skill-item"><i></i> Python</div>
+                        <div class="skill-item"><i></i> JavaScript</div>
+                        <div class="skill-item"><i></i> TypeScript</div>
+                        <div class="skill-item"><i></i> C++</div>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Backend & Data</h4>
+                    <div class="skill-list">
+                        <div class="skill-item"><i></i> FastAPI</div>
+                        <div class="skill-item"><i></i> GraphQL / Apollo</div>
+                        <div class="skill-item"><i></i> PostgreSQL</div>
+                        <div class="skill-item"><i></i> REST APIs</div>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Frontend</h4>
+                    <div class="skill-list">
+                        <div class="skill-item"><i></i> React</div>
+                        <div class="skill-item"><i></i> Tailwind CSS</div>
+                        <div class="skill-item"><i></i> HTML5 / CSS3</div>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>AI & Modern Tooling</h4>
+                    <div class="skill-list">
+                        <div class="skill-item"><i></i> LLM Integration</div>
+                        <div class="skill-item"><i></i> AI Agents / MCP</div>
+                        <div class="skill-item"><i></i> Power BI</div>
+                        <div class="skill-item"><i></i> Microservices</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; <span id="year"></span> Jarrod Pica — jarrod.pica@gmail.com</p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Update Footer Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Reveal Animations on Scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Subtle Background Animation (Floating Particles)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5
+                });
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00d4ff';
+            particles.forEach(p => {
+                p.x += p.x > canvas.width ? -canvas.width : (p.x < 0 ? canvas.width : p.speedX);
+                p.y += p.y > canvas.height ? -canvas.height : (p.y < 0 ? canvas.height : p.speedY);
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        animate();
+    </script>
+</body>
+</html>
